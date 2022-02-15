@@ -30,7 +30,7 @@ def post_create_view(request):
         obj = form.save(commit=False)
         obj.author_id = request.user.pk
         obj.save()
-        return redirect(obj.get_absolute_url())
+        return redirect(obj)
     return render(request, 'blog/create-update.html', context)
 
 
@@ -44,14 +44,17 @@ def post_update_view(request, pk):
     }
     if form.is_valid():
         form.save()
-        return redirect(post_object.get_absolute_url())
+        return redirect(post_object)
     return render(request, 'blog/create-update.html', context)
 
 
 @login_required
 def post_delete_view(request, pk):
     post_object = get_object_or_404(Post, pk=pk, author=request.user)
+    context = {
+        'object': post_object
+    }
     if request.method == 'POST':
         post_object.delete()
         return redirect('blog:index')
-    return render(request, 'blog/delete.html', {})
+    return render(request, 'blog/delete.html', context)

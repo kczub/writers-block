@@ -5,4 +5,5 @@
 {% csrf_token %}
     <button type="submit">Yes</button>
 </form>
+<a href="{% url 'blog:detail' object.pk %}"><button>No</button></a>
 {% endblock content %}
