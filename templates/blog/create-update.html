@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% if not object %}
+    <button type="submit">Create</button>
+    {% else %}
+    <button type="submit">Save changes</button>
+    {% endif %}
+</form>
+{% endblock content %}
