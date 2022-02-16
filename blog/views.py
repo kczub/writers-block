@@ -3,22 +3,39 @@ from django.contrib.auth.decorators import login_required
 
 
 from .models import Post
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 
 
-# function based views
 def index_view(request):
     context = {
         'object_list': Post.objects.order_by('-pub_date')[:5]
     }
     return render(request, 'blog/index.html', context)
 
+
 def post_detail_view(request, pk):
     post_object = get_object_or_404(Post, pk=pk)
+    comments = post_object.comments.order_by('-pub_date')
+    comment_object = None
+
+    if request.method == 'POST':
+        form = CommentForm(data=request.POST)
+        if form.is_valid():
+            comment_object = form.save(commit=False)
+            comment_object.post = post_object
+            comment_object.save()
+            return redirect(post_object)
+    else:
+        form = CommentForm()
+
     context = {
-        'post': post_object
+        'post': post_object,
+        'comments': comments,
+        'comment': comment_object,
+        'form': form
     }
     return render(request, 'blog/detail.html', context)
+
 
 @login_required
 def post_create_view(request):
