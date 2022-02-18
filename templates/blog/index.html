@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<ul>
-{% for object in object_list %}
-    <li><a href="{% url 'blog:detail' object.pk %}">{{ object.title }}</a></li>
-{% endfor %}
-</ul>
+<div class="container">
+    <img src="images/blog-background.jpeg" alt="">
+    {% for object in object_list %}
+    <div class="preview-box">
+        <h2><a class="wrap" href="{% url 'blog:detail' object.pk %}">{{ object.title }}</a></h2>
+        <h4 class="truncate">{{ object.content}}</h4>
+    </div>
+    {% endfor %}
+</div>
 {% endblock content %}

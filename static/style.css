@@ -1,0 +1,94 @@
+/* * {
+    padding: 0;
+    margin: 0;
+} */
+
+body {
+    background-color: rgb(245, 245, 245);
+    /* background: white url("") no-repeat; */
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.navbar {
+    background-color: #ddd;
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+
+.navbar-logo {
+    font-weight: bold;
+    /* font-size: 19px; <-- dlaczego sie nie zmienia? */
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-left {
+    float: left;
+}
+
+.navbar-right {
+    float: right;
+}
+
+.navbar a {
+    float: left;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.navbar li a:hover {
+    background-color: rgb(235, 233, 233);
+}
+
+.container {
+    width: 70%;
+    margin: auto;
+}
+
+.post-head {
+    margin: auto;
+    text-align: center;
+}
+
+.preview-box {
+    /* background-color: #B8B1A1; opacity: 0.8; */
+    padding: 10px;
+    border: 3px dotted rgb(199, 197, 197);
+    margin: 20px;
+}
+
+.preview-box h2 {
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+    
+}
+
+.preview-box a {
+    text-decoration: none;
+}
+
+.wrap {
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    overflow-wrap: break-word;
+}
+
+.truncate {
+    margin: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    overflow-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+            line-clamp: 2; 
+    -webkit-box-orient: vertical;
+}
