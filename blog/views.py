@@ -1,20 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
-
 from .models import Post
 from .forms import PostForm, CommentForm
 
 
 def index_view(request):
     context = {
-        'object_list': Post.objects.order_by('-pub_date')[:5]
+        'object_list': Post.objects.order_by('-pub_date') #[:5]
     }
     return render(request, 'blog/index.html', context)
 
 
-def post_detail_view(request, pk):
-    post_object = get_object_or_404(Post, pk=pk)
+def post_detail_view(request, slug):
+    post_object = get_object_or_404(Post, slug=slug)
     comments = post_object.comments.order_by('-pub_date')
     comment_object = None
 
@@ -44,9 +43,13 @@ def post_create_view(request):
         'form': form
     }
     if form.is_valid():
-        obj = form.save(commit=False)
+        # print("Form is valid")
+        obj = form.save(commit=False) # prevents model save method
+        # print("Save commit=False")
         obj.author_id = request.user.pk
-        obj.save()
+        # print("author_id set")
+        obj.save() # calling save method on the model
+        # print("View SAVED")
         return redirect(obj)
     return render(request, 'blog/create-update.html', context)
 

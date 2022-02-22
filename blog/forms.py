@@ -11,8 +11,8 @@ class PostForm(forms.ModelForm):
         cleaned_data = self.cleaned_data
         title = cleaned_data.get('title')
         qs = Post.objects.filter(title__icontains=title)
-        if qs.exists:
-            self.add_error('title', "Choose different title")
+        if qs.exists():
+            self.add_error('title', "This title is taken.")
         return cleaned_data
 
 

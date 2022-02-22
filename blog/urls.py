@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 
 from .views import (
     index_view,
@@ -12,8 +12,9 @@ from .views import (
 app_name = 'blog'
 urlpatterns = [
     path('', index_view, name='index'),
-    path('post/<int:pk>/', post_detail_view, name='detail'),
-    path('post/<int:pk>/update/', post_update_view, name='update'),
-    path('post/<int:pk>/delete/', post_delete_view, name='delete'),
     path('post/create/', post_create_view, name='create'),
+    # path('post/<slug:slug>/', post_detail_view, name='detail'),
+    re_path(r'^post/(?P<slug>[\w-]+)/$', post_detail_view, name='detail'),
+    re_path(r'^post/(?P<pk>[0-9]+)/edit/$', post_update_view, name='update'),
+    re_path(r'^post/(?P<pk>[0-9]+)/delete/$', post_delete_view, name='delete'),
 ]

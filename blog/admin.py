@@ -5,7 +5,7 @@ from .models import Post, Comment
 
 @admin.register(Post)
 class BlogAdmin(admin.ModelAdmin):
-    list_display = ['title', 'author', 'pub_date', 'was_published_recently']
+    list_display = ['id', 'title', 'slug', 'author', 'pub_date', 'was_published_recently']
     list_filter = ['pub_date']
     search_fields = ['author', 'title']
 

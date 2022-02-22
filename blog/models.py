@@ -1,4 +1,5 @@
 import datetime
+from django.utils.text import slugify
 from django.contrib import admin
 from django.urls import reverse
 from django.conf import settings
@@ -11,8 +12,22 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
     content = models.TextField()
+    slug = models.SlugField(blank=True, null=True)
     pub_date = models.DateTimeField('date published', auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        # print("Model save method called")
+        if self.slug is None:
+            # print(f"Slug is None - {self.slug is None}")
+            self.slug = slugify(self.title)
+            # print("Slugified title, set slug")
+
+        elif self.slug != slugify(self.title):
+            self.slug = slugify(self.title)
+        # print("Done model save slug checks")
+        super().save(*args, **kwargs)
+        # print("Model SAVED")
 
     @admin.display(
         boolean=True,
@@ -23,7 +38,7 @@ class Post(models.Model):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
     def get_absolute_url(self):
-        return reverse('blog:detail', kwargs={'pk': self.pk})
+        return reverse('blog:detail', kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.title
