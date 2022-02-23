@@ -2,12 +2,26 @@
 {% block content %}
 
 <div class="container">
-    <img src="images/blog-background.jpeg" alt="">
-    {% for object in object_list %}
-    <div class="preview-box">
-        <h2><a class="wrap" href="{% url 'blog:detail' object.slug %}">{{ object.title }}</a></h2>
-        <h4 class="truncate">{{ object.content}}</h4>
+    <div class="row">
+        <div class="col">
+            <h5>left col</h5>
+        </div>
+        <div class="col-6 text-center">
+        {% for object in object_list %}
+        <div class="card mt-2 mb-2">
+            <div class="card-body">
+                <h5 class="card-title"><a href="{% url 'blog:detail' object.slug %}" class=" text-decoration-none text-reset">{{ object.title }}</a></h5>
+               
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+        <div class="col">
+        <h5>right col</h5>
+        </div>
     </div>
-    {% endfor %}
 </div>
+
 {% endblock content %}
+
+<!-- <p class="card-text text-truncate mt-5">{{ object.content }}</p> -->

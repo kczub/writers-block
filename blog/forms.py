@@ -1,4 +1,5 @@
 from django import forms
+from tinymce.widgets import TinyMCE
 
 from .models import Post, Comment
 
@@ -7,28 +8,38 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['title', 'content']
 
-    def clean(self):
-        cleaned_data = self.cleaned_data
-        title = cleaned_data.get('title')
-        qs = Post.objects.filter(title__icontains=title)
-        if qs.exists():
-            self.add_error('title', "This title is taken.")
-        return cleaned_data
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'form-control form-control'
+            }),
+            'content': TinyMCE(attrs={
+                'cols': 80,
+                'rows': 30,
+            })
+        }
+    # def clean(self):
+    #     cleaned_data = self.cleaned_data
+    #     title = cleaned_data.get('title')
+    #     qs = Post.objects.filter(title__icontains=title)
+    #     if qs.exists():
+    #         self.add_error('title', "This title is taken.")
+    #     return cleaned_data
 
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['name', 'content']
+        fields = ['content', 'name']
         
         widgets = {
             'name': forms.TextInput(attrs={
-                'placeholder': 'Enter your name'
+                'placeholder': 'Enter your name',
+                'class': 'form-control form-control-sm'
             }),
             'content': forms.Textarea(attrs={
-                'cols': 40,
-                'rows': 3,
+                'rows': 5,
                 'placeholder': 'Write a comment...',
+                'class': 'form-control form-control-sm'
             })
         }
         

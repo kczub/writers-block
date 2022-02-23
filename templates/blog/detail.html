@@ -1,25 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container">
-    <div class="post-head">
-        <h2>{{ post.title }}</h2>
-        <h4>by {{ post.author }}</h4>
-        <p>Published on {{ post.pub_date }}</p>
-    </div>
+    <h2 class="text-center mt-5">{{ post.title }}</h2>
+    <h4 class="mb-1">by {{ post.author }}</h4>
+    <h5>{{ post.pub_date }}</h5>
+    <p class="mt-4 mb-4">{{ post.content|safe }}</p>
     {% if request.user.is_authenticated %}
-    <a href="{% url 'blog:update' post.pk %}"><button>Edit</button></a>
-    <a href="{% url 'blog:delete' post.pk %}"><button>Delete</button></a>
+        <a href="{% url 'blog:update' post.pk %}" class="btn btn-primary btn-sm mb-1">Edit</a>
     {% endif %}
-    <p>{{ post.content }}</p>
-    <h4>Comments:</h4>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
-    </form>
-    {% for comment in comments %}
-    <h5>{{ comment.name }}</h5>
-    <p>{{ comment.content }}</p>
-    {% endfor %}
+    <hr>
+    <div class="row">
+        <div class="col-4">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-success btn-sm mb-1" type="submit">Submit</button>
+            </form>
+            <hr>
+            <h5 class="mb-3">Comments:</h5>
+            {% for comment in comments %}
+            <p class="mb-1"><strong>{{ comment.name }}</strong></p>
+            <p>{{ comment.content }}</p>
+            {% endfor %}
+        </div>
+        <div class="col-8">
+        </div>
+    </div>
 </div>
 {% endblock content %}

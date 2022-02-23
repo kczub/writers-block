@@ -1,17 +1,19 @@
 import datetime
+from django.db import models
 from django.utils.text import slugify
 from django.contrib import admin
 from django.urls import reverse
 from django.conf import settings
 from django.utils import timezone
-from django.db import models
+from tinymce.models import HTMLField
 
 User = settings.AUTH_USER_MODEL
 
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
-    content = models.TextField()
+    content = HTMLField()
+    # content = models.TextField()
     slug = models.SlugField(blank=True, null=True)
     pub_date = models.DateTimeField('date published', auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
