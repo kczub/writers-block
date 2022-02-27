@@ -5,8 +5,10 @@ name = "pypi"
 
 [packages]
 django = "*"
+django-dotenv = "*"
 django-tinymce = "*"
 django-ckeditor = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
