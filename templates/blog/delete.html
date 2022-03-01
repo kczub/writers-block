@@ -1,9 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-<p>Are you sure?</p>
-<form method="POST">
-{% csrf_token %}
-    <button type="submit">Yes</button>
-</form>
-<a href="{% url 'blog:detail' object.slug %}"><button>No</button></a>
+<div class="row align-items-center">
+    <div class="col">
+    </div>
+    <div class="col">
+        <form method="POST">
+            {% csrf_token %}
+            <p>Are you sure?</p>
+            <div class="btn-group" role="group">
+                <button class="btn btn-success" type="submit">Yes</button>
+                <a class="btn btn-danger" href="{% url 'blog:detail' object.slug %}" role="button">No</a>
+            </div>
+        </form>
+    </div>
+    <div class="col">
+    </div>
+</div>
 {% endblock content %}
