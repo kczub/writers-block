@@ -6,7 +6,7 @@
     <h5>{{ post.pub_date }}</h5>
     <p class="mt-4 mb-4">{{ post.content|safe }}</p>
     {% if request.user.is_authenticated %}
-        <a href="{% url 'blog:update' post.pk %}" class="btn btn-primary btn-sm mb-1">Edit</a>
+        <a href="{% url 'blog:update' post.slug %}" class="btn btn-primary btn-sm mb-1">Edit</a>
     {% endif %}
     <hr>
     <div class="row">

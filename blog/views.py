@@ -7,7 +7,7 @@ from .forms import PostForm, CommentForm
 
 def index_view(request):
     context = {
-        'object_list': Post.objects.order_by('-pub_date') #[:5]
+        'object_list': Post.objects.exclude(published=False).order_by('-pub_date')
     }
     return render(request, 'blog/index.html', context)
 
@@ -43,20 +43,18 @@ def post_create_view(request):
         'form': form
     }
     if form.is_valid():
-        # print("Form is valid")
-        obj = form.save(commit=False) # prevents model save method
-        # print("Save commit=False")
+        obj = form.save(commit=False)
         obj.author_id = request.user.pk
-        # print("author_id set")
-        obj.save() # calling save method on the model
-        # print("View SAVED")
+        obj.save()
+        if obj.published is not True:
+            return redirect('accounts:profile')
         return redirect(obj)
     return render(request, 'blog/create-update.html', context)
 
 
 @login_required
-def post_update_view(request, pk):
-    post_object = get_object_or_404(Post, pk=pk, author=request.user)
+def post_update_view(request, slug):
+    post_object = get_object_or_404(Post, slug=slug, author=request.user)
     form = PostForm(request.POST or None, instance=post_object)
     context = {
         'form': form,
@@ -69,8 +67,8 @@ def post_update_view(request, pk):
 
 
 @login_required
-def post_delete_view(request, pk):
-    post_object = get_object_or_404(Post, pk=pk, author=request.user)
+def post_delete_view(request, slug):
+    post_object = get_object_or_404(Post, slug=slug, author=request.user)
     context = {
         'object': post_object
     }

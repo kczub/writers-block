@@ -12,32 +12,32 @@ User = settings.AUTH_USER_MODEL
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
+    # snippet = models.CharField(max_length=255)
     content = HTMLField()
-    # content = models.TextField()
     slug = models.SlugField(blank=True, null=True)
-    pub_date = models.DateTimeField('date published', auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    published = models.BooleanField('publish', default=False, blank=False, null=False)
+    pub_date = models.DateTimeField('date published', blank=True, null=True)
+    # updated = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        # print("Model save method called")
         if self.slug is None:
-            # print(f"Slug is None - {self.slug is None}")
             self.slug = slugify(self.title)
-            # print("Slugified title, set slug")
-
         elif self.slug != slugify(self.title):
             self.slug = slugify(self.title)
-        # print("Done model save slug checks")
+        
+        if self.published is True:
+            self.pub_date = timezone.now()
+        else:
+            self.pub_date = None
         super().save(*args, **kwargs)
-        # print("Model SAVED")
 
-    @admin.display(
-        boolean=True,
-        ordering='pub_date',
-        description='Published recently?',
-    )
-    def was_published_recently(self):
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+    # @admin.display(
+    #     boolean=True,
+    #     ordering='pub_date',
+    #     description='Published recently?',
+    # )
+    # def was_published_recently(self):
+    #     return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
     def get_absolute_url(self):
         return reverse('blog:detail', kwargs={'slug': self.slug})
