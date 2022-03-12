@@ -23,7 +23,7 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
         </button>
     </form>
     {% if object %}
-    <a href="{% url 'blog:delete' object.pk %}" class="btn btn-danger mb-5">Delete post</a>
+    <a href="{% url 'blog:delete' object.slug %}" class="btn btn-danger mb-5">Delete post</a>
     {% endif %}
 </div>
 {% endblock content %}
