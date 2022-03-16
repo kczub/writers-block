@@ -6,7 +6,7 @@ from .models import Post, Comment
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'content', 'published']
+        fields = ['title', 'summary', 'content', 'published']
 
         widgets = {
             'title': forms.TextInput(attrs={
@@ -15,6 +15,10 @@ class PostForm(forms.ModelForm):
             'content': TinyMCE(attrs={
                 'cols': 80,
                 'rows': 30,
+            }),
+            'summary': forms.TextInput(attrs={
+                'class': 'form-control form-control',
+                'placeholder': 'max. 255 characters'
             })
         }
     # def clean(self):

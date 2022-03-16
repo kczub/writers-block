@@ -13,8 +13,7 @@
         <div class="card mt-2 mb-2">
             <div class="card-body">
                 <h5 class="card-title"><a href="{% url 'blog:detail' object.slug %}" class=" text-decoration-none text-reset">{{ object.title }}</a></h5>
-                <p class="card-text">
-                </p>
+                <p class="card-text">{{object.summary }}</p>
             </div>
         </div>
         {% endfor %}

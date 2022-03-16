@@ -12,10 +12,10 @@ User = settings.AUTH_USER_MODEL
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
-    # snippet = models.CharField(max_length=255)
+    summary = models.CharField(max_length=255)
     content = HTMLField()
-    slug = models.SlugField(blank=True, null=True)
-    published = models.BooleanField('publish', default=False, blank=False, null=False)
+    slug = models.SlugField(max_length=150, blank=True, null=True)
+    published = models.BooleanField('publish (uncheck to save draft)', default=True, blank=False, null=False)
     pub_date = models.DateTimeField('date published', blank=True, null=True)
     # updated = models.DateTimeField(auto_now=True)
 
@@ -37,7 +37,14 @@ class Post(models.Model):
     #     description='Published recently?',
     # )
     # def was_published_recently(self):
-    #     return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+
+    @admin.display(
+        boolean=True,
+        # ordering='pub_date',
+        description='Published',
+    )
+    def is_published(self):
+        return self.published
 
     def get_absolute_url(self):
         return reverse('blog:detail', kwargs={'slug': self.slug})
