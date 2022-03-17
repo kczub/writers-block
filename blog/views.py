@@ -1,15 +1,28 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView, ListView
 
 from .models import Post
 from .forms import PostForm, CommentForm
 
 
-def index_view(request):
-    context = {
-        'object_list': Post.objects.exclude(published=False).order_by('-pub_date')
-    }
-    return render(request, 'blog/index.html', context)
+# def index_view(request):
+#     context = {
+#         'object_list': Post.objects.exclude(published=False).order_by('-pub_date')
+#     }
+#     return render(request, 'blog/index.html', context)
+
+class IndexView(ListView):
+    template_name = 'blog/index.html'
+    model = Post
+
+    def get_queryset(self):
+        qs = Post.objects.exclude(published=False).order_by('-pub_date')
+        return qs
+
+
+class AboutView(TemplateView):
+    template_name = 'blog/about.html'
 
 
 def post_detail_view(request, slug):

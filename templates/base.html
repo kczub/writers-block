@@ -27,7 +27,7 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-link" href="{% url 'blog:index' %}">Home</a>
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="{% url 'blog:about' %}">About</a>
                 </div>
                 <div class="navbar-nav ms-auto">
                     {% if request.user.is_authenticated %}

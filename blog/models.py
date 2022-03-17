@@ -1,4 +1,3 @@
-import datetime
 from django.db import models
 from django.utils.text import slugify
 from django.contrib import admin
@@ -31,16 +30,8 @@ class Post(models.Model):
             self.pub_date = None
         super().save(*args, **kwargs)
 
-    # @admin.display(
-    #     boolean=True,
-    #     ordering='pub_date',
-    #     description='Published recently?',
-    # )
-    # def was_published_recently(self):
-
     @admin.display(
         boolean=True,
-        # ordering='pub_date',
         description='Published',
     )
     def is_published(self):
